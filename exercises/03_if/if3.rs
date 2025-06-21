@@ -1,21 +1,21 @@
 fn animal_habitat(animal: &str) -> &str {
-    // TODO: Fix the compiler error in the statement below.
+    // Ensure the identifier is of the same type (f64 in this case)
     let identifier = if animal == "crab" {
-        1
+        1.0
     } else if animal == "gopher" {
         2.0
     } else if animal == "snake" {
-        3
+        3.0
     } else {
-        "Unknown"
+        -1.0 // Use -1.0 to indicate an unknown animal, which is a valid f64
     };
 
     // Don't change the expression below!
-    if identifier == 1 {
+    if identifier == 1.0 {
         "Beach"
-    } else if identifier == 2 {
+    } else if identifier == 2.0 {
         "Burrow"
-    } else if identifier == 3 {
+    } else if identifier == 3.0 {
         "Desert"
     } else {
         "Unknown"
