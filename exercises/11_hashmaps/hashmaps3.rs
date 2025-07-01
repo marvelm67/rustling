@@ -11,26 +11,49 @@ use std::collections::HashMap;
 // A structure to store the goal details of a team.
 #[derive(Default)]
 struct TeamScores {
+    name: String,
     goals_scored: u8,
     goals_conceded: u8,
 }
 
-fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
+
+fn build_scores_table(results: &str) -> HashMap<String, TeamScores> {
     // The name of the team is the key and its associated struct is the value.
-    let mut scores = HashMap::<&str, TeamScores>::new();
+    let mut scores = HashMap::<String, TeamScores>::new();
 
     for line in results.lines() {
         let mut split_iterator = line.split(',');
         // NOTE: We use `unwrap` because we didn't deal with error handling yet.
-        let team_1_name = split_iterator.next().unwrap();
-        let team_2_name = split_iterator.next().unwrap();
+        let team_1_name = split_iterator.next().unwrap().to_string();
+        let team_2_name = split_iterator.next().unwrap().to_string();
         let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap();
         let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap();
 
-        // TODO: Populate the scores table with the extracted details.
-        // Keep in mind that goals scored by team 1 will be the number of goals
-        // conceded by team 2. Similarly, goals scored by team 2 will be the
-        // number of goals conceded by team 1.
+        // Update the scores for team 1
+        scores
+            .entry(team_1_name.clone())
+            .and_modify(|team| {
+                team.goals_scored += team_1_score;
+                team.goals_conceded += team_2_score;
+            })
+            .or_insert(TeamScores {
+                name: team_1_name.clone(),
+                goals_scored: team_1_score,
+                goals_conceded: team_2_score,
+            });
+
+        // Update the scores for team 2
+        scores
+            .entry(team_2_name.clone())
+            .and_modify(|team| {
+                team.goals_scored += team_2_score;
+                team.goals_conceded += team_1_score;
+            })
+            .or_insert(TeamScores {
+                name: team_2_name.clone(), 
+                goals_scored: team_2_score,
+                goals_conceded: team_1_score,
+            });
     }
 
     scores

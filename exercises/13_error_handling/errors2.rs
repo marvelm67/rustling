@@ -18,7 +18,7 @@ use std::num::ParseIntError;
 
 fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let processing_fee = 1;
-    let cost_per_item = 5;
+    let cost_per_item = 5; 
 
     // TODO: Handle the error case as described above.
     let qty = item_quantity.parse::<i32>();
