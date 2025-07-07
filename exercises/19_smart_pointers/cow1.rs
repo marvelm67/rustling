@@ -16,7 +16,13 @@ fn abs_all(input: &mut Cow<[i32]>) {
 }
 
 fn main() {
-    // You can optionally experiment here.
+    let slice = [-1, 0, 1];
+    let mut input = Cow::from(&slice[..]);
+    match abs_all(&mut input)
+        Cow::Owned(_) => println("I modified the slice and now on it!")
+        _ => panic!("expected owned value")
+
+        
 }
 
 #[cfg(test)]
